@@ -13,7 +13,6 @@
         integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/estilo.css">
 
-    <script src=""></script>
 </head>
 
 <body>
@@ -65,29 +64,46 @@
         <div class="mi-flex row">
             <div class="col">
 
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="img-fluid" src="/img/producto.jpg" alt="Producto destacado">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="img-fluid" src="/img/producto2.jpg" alt="Producto destacado">
-                        </div>
+                <h2>Agregar datos</h2>
 
+                <div class="row mb-3">
+                    <div class="col">
+                        <input class="d-none" type="text" id="id">
+
+                        <label for="">Nombre</label>
+                        <input class="form-control" type="email" id="name">
+
+                        <label class="mt-3" for="">Apellidos</label>
+                        <input class="form-control" type="text" id="apellidos">
+
+                        <label class="mt-3" for="">Rol</label>
+                        <select id="rol" class="form-control" name="" id="">
+                            <option value="Docente">Docente</option>
+                            <option value="Estudiante">Estudiante</option>
+                        </select>
                     </div>
                 </div>
+
+                <button id="btnAgregar" onclick="agregarDatos()" class="btn btn-primary">Agragar Datos</button>
+                <button id="btnActualizar" onclick="actualizarDatos()" class="btn btn-warning">Actualizar Datos</button>
             </div>
             <div class="col">
-                <h2>Lorem ipsum dolor sit amet.</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos rem similique impedit illum, minus
-                    cumque doloremque optio iste placeat ab eveniet ipsa maxime magnam doloribus praesentium. Quaerat
-                    animi quibusdam deleniti repellendus architecto et nulla, corporis quisquam delectus repellat
-                    temporibus sed incidunt, ipsum laboriosam perspiciatis tempora voluptatibus est similique. Mollitia
-                    adipisci dolore cum excepturi quod, repellendus minus porro est! Numquam ipsa facere necessitatibus
-                    esse, error totam. Omnis animi impedit recusandae, maiores corporis sed repellat officiis soluta!
-                    Omnis, tempora vitae cum, maiores placeat numquam expedita repudiandae voluptates facere iste vero
-                    fugiat enim?</p>
-                <button onclick="agregarDatos()" class="btn btn-primary">Agragar Datos</button>
+                <h2>Listado de docentes</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th>Rol</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaDocente">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
@@ -113,7 +129,6 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
 
     <script src="js/index.js"></script>
-
 </body>
 
 </html>
