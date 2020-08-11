@@ -46,8 +46,6 @@ function agregarDatos(user) {
     //console.log(`El nombre es: ${txtname.value} y el apellido es: ${apellidos.value}`);
 }
 
-leerDatos();
-
 function leerDatos() {
     listaDocente.innerHTML = "";
     btnActualizar.classList.add('d-none');
@@ -138,18 +136,16 @@ function registarUsuario() {
 }
 
 function login() {
-    firebase.auth().signInWithEmailAndPassword(emailUser.value, passUser.value)
+    var uno = emailUser.value;
+    firebase.auth().signInWithEmailAndPassword(uno, passUser.value)
         .then((user) => {
-            console.log(emailUser.value);
-            //localStorage.login = user.email;
-            sessionStorage.setItem('login', emailUser.value);
-            //window.location.href = 'admin.html';
-
+            sessionStorage.setItem('login', user.email);
+            window.location.href = 'admin.html';
         })
         .catch(function (error) {
-            console.log("Error: ", error.message)
+            console.log("Error: ", error.message);
+            limpiarDatosLogin();
         });
-    limpiarDatosLogin();
 }
 
 function cerrarSesion() {
@@ -165,24 +161,9 @@ function cerrarSesion() {
 function estado() {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-            // User is signed in.
-            //   var displayName = user.displayName;
-            //var email = 
-            //   var emailVerified = user.emailVerified;
-            //   var photoURL = user.photoURL;
-            //   var isAnonymous = user.isAnonymous;
-            //   var uid = user.uid;
-            //   var providerData = user.providerData;
-            //   // ...
-            console.log(user.email)
-            console.log("object")
             emailUsuarioLogueado.innerHTML = user.email;
-
-            //window.location.href = 'admin.html';
         }
         else {
-            // User is signed out.
-            // ...
             window.location.href = 'index.html';
         }
     });
