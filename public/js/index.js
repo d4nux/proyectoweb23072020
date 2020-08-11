@@ -19,6 +19,12 @@ var apellidos = document.getElementById('apellidos');
 var listaDocente = document.getElementById('listaDocente');
 var opcion = document.getElementById('rol');
 
+// login y registro
+var emailUser = document.getElementById('emailUser');
+var passUser = document.getElementById('passUser');
+
+var emailUsuarioLogueado = document.getElementById('emailUsuarioLogueado');
+
 var btnAgregar = document.getElementById('btnAgregar');
 var btnActualizar = document.getElementById('btnActualizar');
 
@@ -114,3 +120,71 @@ function limpiarDatos() {
     txtname.value = "";
     apellidos.value = "";
 }
+
+function limpiarDatosLogin() {
+    emailUser.value = "";
+    passUser.value = "";
+}
+
+function registarUsuario() {
+    firebase.auth().createUserWithEmailAndPassword(emailUser.value, passUser.value)
+        .then(() => {
+            console.log("El usuario se ha registrado");
+            limpiarDatosLogin();
+        })
+        .catch(function (error) {
+            console.log("Error: ", error.message);
+        });
+}
+
+function login() {
+    firebase.auth().signInWithEmailAndPassword(emailUser.value, passUser.value)
+        .then((user) => {
+            console.log(emailUser.value);
+            //localStorage.login = user.email;
+            sessionStorage.setItem('login', emailUser.value);
+            //window.location.href = 'admin.html';
+
+        })
+        .catch(function (error) {
+            console.log("Error: ", error.message)
+        });
+    limpiarDatosLogin();
+}
+
+function cerrarSesion() {
+    firebase.auth().signOut()
+        .then(() => {
+            console.log("Sesion cerrada exitosamente");
+            window.location.href = 'index.html';
+        }).catch((error) => {
+            console.log(error.message)
+        });
+}
+
+function estado() {
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+            // User is signed in.
+            //   var displayName = user.displayName;
+            //var email = 
+            //   var emailVerified = user.emailVerified;
+            //   var photoURL = user.photoURL;
+            //   var isAnonymous = user.isAnonymous;
+            //   var uid = user.uid;
+            //   var providerData = user.providerData;
+            //   // ...
+            console.log(user.email)
+            console.log("object")
+            emailUsuarioLogueado.innerHTML = user.email;
+
+            //window.location.href = 'admin.html';
+        }
+        else {
+            // User is signed out.
+            // ...
+            window.location.href = 'index.html';
+        }
+    });
+}
+
