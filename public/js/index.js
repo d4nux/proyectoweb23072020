@@ -12,6 +12,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 var db = firebase.firestore();
+var storage = firebase.storage();
 
 var idUsuario = document.getElementById('id');
 var txtname = document.getElementById('name');
@@ -28,9 +29,13 @@ var emailUsuarioLogueado = document.getElementById('emailUsuarioLogueado');
 var btnAgregar = document.getElementById('btnAgregar');
 var btnActualizar = document.getElementById('btnActualizar');
 
+var archivo = document.getElementById('archivo');
+var imgArchivo = document.getElementById('imgSudida');
+var usuarioActual;
+
 function agregarDatos(user) {
     leerDatos();
-    db.collection("docentes").add({
+    db.collection("docentes").doc('8798').set({
         nombre: txtname.value,
         apellido: apellidos.value,
         rol: opcion.value
@@ -58,6 +63,7 @@ function leerDatos() {
                         <td>${doc.data().nombre}</td>
                         <td>${doc.data().apellido}</td>
                         <td>${doc.data().rol}</td>
+                        <td><img src='${doc.data().imagen}' /></td>
                         <td>
                             <button onclick="eliminar('${doc.id}')" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
                             <button onclick="editar('${doc.id}')" class="btn btn-info"><i class="far fa-edit"></i></button>
@@ -110,7 +116,7 @@ function actualizarDatos() {
         })
         .catch((error) => {
             console.log("Error: ", error);
-        });;
+        });
 
 }
 
@@ -162,6 +168,7 @@ function estado() {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             emailUsuarioLogueado.innerHTML = user.email;
+            usuarioActual = user;
         }
         else {
             window.location.href = 'index.html';
@@ -169,3 +176,38 @@ function estado() {
     });
 }
 
+archivo.addEventListener('change', (e) => {
+    var nombre = e.target.files[0].name;
+    var tmp = URL.createObjectURL(e.target.files[0]);
+    console.log("Evento: ", tmp);
+    imgArchivo.src = tmp;
+})
+
+function subirImagen() {
+    var archivoFile = archivo.files[0];
+    var nombre = archivo.files[0].name;
+
+    var uploadTask = storage.ref('imagenes/' + nombre).put(archivoFile)
+        .then((img) => {
+            console.log('Imagen subida ..', img.totalBytes);
+            console.log(archivo.files[0].type)
+        });
+
+    storage.ref('imagenes/' + nombre).getDownloadURL()
+        .then((urlImg) => {
+            imgArchivo.src = urlImg;
+
+            db.collection("docentes").doc('QfPiBxiTlI5LteTW7uhF').update({
+                imagen: urlImg
+            })
+                .then(() => {
+                    console.log("Documento actualizado con imagen");
+                })
+                .catch((error) => {
+                    console.log("Error: ", error);
+                });
+
+
+        });
+
+}

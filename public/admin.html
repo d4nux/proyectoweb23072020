@@ -40,6 +40,11 @@
                     <div class="col">
                         <h1>Modulo Administador</h1>
                         <p>Bienvenido: <label id="emailUsuarioLogueado">xxxx</label></p>
+                        <input type="file" name="archivo" id="archivo">
+                        <input onclick="subirImagen()" type="button" name="btnSubirImg" id="btnSubirImg"
+                            class="btn btn-primary" value="Subir Imagen">
+
+                        <img src="" alt="" name="imgSudida" id="imgSudida">
                     </div>
                 </div>
             </div>
@@ -68,6 +73,7 @@
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-storage.js"></script>
     <script src="./js/index.js"></script>
     <script>
         estado();
